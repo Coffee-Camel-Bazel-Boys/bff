@@ -5,23 +5,22 @@ use Mojolicious::Validator::Validation;
 use experimental qw(say);
 
 sub startup ($self) {
-
-  $self->hook(after_dispatch => sub {
-                my $c = shift;
-                
-                });
-
+  #$self->routes->get('/catch_exception', sub {
+   #                    my $c = shift;
+    #                   $c->render(status => 503,
+     #                             text => 'Service unavailable');
+      #                 });
   
   my $router = $self->routes->under('/api');
 
   # User routing
   my $user_router = $router->under('/users');
   $user_router->post('/')->to('user#create')->name('user_create');
-  $user_router->post('/login')->to('user#login')->name('user_login');
+  $user_router->any('/login')->to('user#login')->name('user_login');
   $user_router->get('/:id')->to('user#find')->name('user_find');
   $user_router->put('/:id')->to('user#update')->name('user_update');
   $user_router->delete('/:id')->to('user#delete')->name('user_delete');
-
+  
   # Land routing
   my $land_router = $router->under('/lands');
   $land_router->get('/')->to('land#find_all')->name('land_find_all');
