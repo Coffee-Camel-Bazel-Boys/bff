@@ -1,4 +1,4 @@
-package Bff::Controller::Login;
+package Bff::Controller::User;
 
 use strict;
 use warnings;

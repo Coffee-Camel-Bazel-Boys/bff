@@ -25,8 +25,17 @@ sub find_land ($id) {
   return $client->get($CLIENT_URI . $id);
 }
 
+sub find_all_land {
+  return $client->get($CLIENT_URI);
+}
+
 sub delete_land ($id) {
   return $client->delete($CLIENT_URI . $id);
+}
+
+sub find_all ($self) {
+  return $self->render(json => (find_all_land->result || '[]'),
+                       status => 200);
 }
 
 sub create ($self) {
