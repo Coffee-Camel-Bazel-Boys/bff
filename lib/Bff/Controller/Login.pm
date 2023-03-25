@@ -9,16 +9,16 @@ use Mojo::Base 'Mojolicious::Controller', -signatures;
 use Mojo::UserAgent;
 use Mojo::JSON;
 
-our $CLIENT_URI = 'http://garden-land:69420/';
+our $CLIENT_URI = 'http://garden-land:42069/';
 
 my $client = Mojo::UserAgent->new;
 
 sub post_user ($user) {
-  return $client->post('http://backend:69420/api/v1/users' => json => $user);
+  return $client->post($CLIENT_URI . '/api/v1/users' => json => $user);
 }
 
 sub post_login ($login) {
-  return $client->post($CLIENT_URI);
+  return $client->post($CLIENT_URI . '/api/v1/users' => json => $login);
 }
 
 sub create ($self) {
