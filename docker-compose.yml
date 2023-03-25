@@ -7,6 +7,8 @@ services:
       - 3000
     ports:
       - '3000:3000'
-    links:
-      - "db"
-      - "webserver"
+
+networks:
+  garden-land:
+    name: garden-land
+    external: true
