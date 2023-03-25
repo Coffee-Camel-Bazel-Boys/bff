@@ -1,16 +1,12 @@
 package Bff;
 
 use Mojo::Base 'Mojolicious', -signatures;
+use Mojo::Log;
 use Mojolicious::Validator::Validation;
 use experimental qw(say);
 
 sub startup ($self) {
-  #$self->routes->get('/catch_exception', sub {
-   #                    my $c = shift;
-    #                   $c->render(status => 503,
-     #                             text => 'Service unavailable');
-      #                 });
-  
+  my $log = Mojo::Log->new(level => 'trace');
   my $router = $self->routes->under('/api');
 
   # User routing
@@ -28,6 +24,8 @@ sub startup ($self) {
   $land_router->post('/')->to('land#create')->name('land_create');
   $land_router->put('/:id')->to('land#update')->name('land_update');
   $land_router->delete('/:id')->to('land#delete')->name('land_delete');
+  
+  $self->log($log);
 }
 
 1;
