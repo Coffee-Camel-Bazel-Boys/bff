@@ -1,6 +1,8 @@
-FROM perl:latest
+FROM perl:latest AS mojo
+RUN cpan Mojolicious
+
+FROM mojo AS bff
 EXPOSE 3000
 COPY . /bff
 WORKDIR /bff
-RUN cpan Mojolicious
 CMD ["perl", "bff.pl", "prefork", "-m", "production"]
