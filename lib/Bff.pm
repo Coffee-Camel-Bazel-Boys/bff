@@ -9,8 +9,8 @@ sub startup ($self) {
 
   my $user_router = $router->under('/users');
 
-  $user_router->under('/')->to('user#create')->name('user_create');
-  $user_router->under('/login')->to('user#login')->name('user_login');
+  $user_router->post('/')->to('user#create')->name('user_create');
+  $user_router->post('/login')->to('user#login')->name('user_login');
 }
 
 1;
