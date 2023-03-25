@@ -57,10 +57,10 @@ sub delete_land ($id) {
 
 sub find_all ($self) {
   my $land = find_all_land();
-  $self->log(Dumper $land);
+  $self->app->log(Dumper $land);
   if ($land) {
     $self->render(json => $land,
-                         status => 200);
+                  status => 200);
   } else {
     $self->res->code(503);
     $self->render(json => $err_msg);
