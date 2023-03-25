@@ -60,7 +60,7 @@ sub find {
   return $self->render(status => 404, json => undef) unless my $user_transaction = find_user($id);
   my $user = $user_transaction;
   $self->res->code(200);
-  $self->render(json => $user);
+  $self->render(json => $user->json);
 }
 
 sub login {

@@ -70,7 +70,7 @@ sub find_all ($self) {
 sub create ($self) {
   my $land_create_response = post_land($self->req->json);
   return $self->render(status => 503, json => $err_msg) unless $land_create_response;
-  return $self->render(json => $land_create_response->body,
+  return $self->render(json => $land_create_response->json,
                        status => $land_create_response->code);
 }
 
@@ -99,7 +99,7 @@ sub delete ($self) {
   return $self->render(status => 400) unless my $id = $self->stash('id');
   my $result = delete_land($id); 
   return $self->render(status => 503, json => $err_msg) unless $result;
-  return $self->render(status => $result->code);
+  return $self->render(status => $result->code, text => '');
 }
 
 1;
