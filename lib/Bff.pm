@@ -11,6 +11,8 @@ sub startup ($self) {
 
   $user_router->post('/')->to('user#create')->name('user_create');
   $user_router->post('/login')->to('user#login')->name('user_login');
+
+  my $land_router = $user_router->under('/land');
 }
 
 1;
