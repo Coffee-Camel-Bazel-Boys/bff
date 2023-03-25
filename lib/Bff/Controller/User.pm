@@ -5,7 +5,6 @@ use warnings;
 use experimental qw(signatures);
 
 use Mojo::File qw(curfile);
-
 use Mojo::Base 'Mojolicious::Controller', -signatures;
 use Mojo::UserAgent;
 use Mojo::JSON;
@@ -16,6 +15,10 @@ my $client = Mojo::UserAgent->new;
 
 sub post_user ($user) {
   return $client->post($CLIENT_URI . '/api/v1/users' => json => $user);
+}
+
+sub put_user ($user, $id) {
+  return $client->put($CLIENT_URI . '/api/v1/users/' . $id => json => $user);
 }
 
 sub post_login ($login) {
@@ -43,6 +46,14 @@ sub login ($self) {
   my $user_login_response = post_user($self->req->json)->result;
   return $self->render(json => $user_login_response->json,
                        status => $user_login_response->code);
+}
+
+sub update ($self) {
+  return $self->render(status => 400) unless my $id = $self->stash('id');
+  my $user = $self->req->json;
+  my $result = put_user($user, $id)->result;
+  return $self->render(json => $result->json,
+                       status => $result->code);
 }
 
 1;

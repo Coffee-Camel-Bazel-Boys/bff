@@ -11,7 +11,9 @@ sub startup ($self) {
 
   $user_router->post('/')->to('user#create')->name('user_create');
   $user_router->post('/login')->to('user#login')->name('user_login');
-  $user_router->get('/:number' => [number => [qr/\d{9}/]])->to('user#find')->name('user_login');
+  # NOTE: id here is actually user-number
+  $user_router->get('/:id' => [id => [qr/\d{9}/]])->to('user#find')->name('user_find');
+  $user_router->put('/:id' => [id => [qr/\d{9}/]])->to('user#update')->name('user_update');
 
   my $land_router = $user_router->under('/land');
 }
