@@ -5,4 +5,4 @@ WORKDIR /bff
 RUN cpan Mojolicious
 
 FROM build AS bff
-CMD ["perl", "bff.pl", "daemon", "-m", "production"]
+CMD ["perl", "bff.pl", "prefork", "-m", "production"]
