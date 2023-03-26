@@ -34,6 +34,9 @@ sub startup ($self) {
   $land_router->post('/')->to('land#create')->name('land_create');
   $land_router->put('/:id')->to('land#update')->name('land_update');
   $land_router->delete('/:id')->to('land#delete')->name('land_delete');
+
+  my $geo_router = $router->under('/geo');
+  $geo_router->get('/autocomplete')->to('geo#autocomplete')->name('geo_autocomplete');
   
   $self->log($log);
 }
