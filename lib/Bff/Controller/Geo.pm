@@ -33,6 +33,6 @@ sub auto_complete {
   return $self->render(json => $err_msg, status => 503) unless $api_key;
   my $json = $self->json;
   return $self->render(text => '', status => 400) unless scalar get_intersection(\(keys %$json), \@accepted_keys) == 1;
-  return $self->render(json => $err_msg, status => 503) unless my $auto_complete_result = get_auto_complete_results();
+  return $self->render(json => $err_msg, status => 503) unless my $auto_complete_result = get_auto_complete_results($api_key, $json->{'text'});
   $self->render(json => $auto_complete_result->json, status => $auto_complete_result->code);
 }
