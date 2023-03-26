@@ -9,6 +9,7 @@ use Mojo::Base 'Mojolicious::Controller', -signatures;
 use Mojo::UserAgent;
 use Mojo::JSON;
 use Mojo::Exception qw(check);
+use JSON::WebToken;
 
 our $CLIENT_URI = 'http://garden-land:42069/api/v1/users/';
 
@@ -66,6 +67,8 @@ sub find {
 sub login {
   my $self = shift;
   return $self->render(status => 400, json => undef) unless $self->req->method eq 'POST';
+  my $jwt = $self->req->json->{'loginToken'};
+  
   return $self->render(status => 503, json => $err_msg ) unless my $user_login_response = post_user($self->req->json);
   $self->render(json => $user_login_response->json,
                 status => $user_login_response->code);

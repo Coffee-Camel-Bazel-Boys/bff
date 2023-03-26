@@ -1,5 +1,5 @@
 FROM perl:latest AS mojo
-RUN cpan Mojolicious
+RUN cpan Mojolicious Mojolicious::Plugin::OAuth2 List::Compare
 
 FROM mojo AS bff
 EXPOSE 3000

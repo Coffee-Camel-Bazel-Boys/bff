@@ -9,6 +9,7 @@ services:
       - '3000:3000'
     networks:
       - garden-land
+    env_file: .env
 
 networks:
   garden-land:

@@ -4,8 +4,18 @@ use Mojo::Base 'Mojolicious', -signatures;
 use Mojo::Log;
 use Mojolicious::Validator::Validation;
 use experimental qw(say);
+use Mojolicious::Plugin::OAuth2;
 
 sub startup ($self) {
+  $self->plugin(OAuth2 => {
+                           providers => {
+                                         google => {
+                                                    key    => '953637215774-de5fr3c8dj9mbrvr4ccptlvd4ss3s6u9.apps.googleusercontent.com',
+                                                    secret => $ENV{'GOOGLE_SECRET'},
+                                                   },
+                                        },
+                          });
+
   my $log = Mojo::Log->new(level => 'trace');
   my $router = $self->routes->under('/api');
 
