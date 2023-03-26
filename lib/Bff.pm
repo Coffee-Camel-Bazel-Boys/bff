@@ -37,11 +37,11 @@ sub startup ($self) {
 
   # Plot routing
   my $plot_router = $router->under('/plots');
-  $router->get('/')->to('plot#find_all')->name('plot_find_all');
-  $router->get('/:id')->to('plot#find')->name('plot_find');
-  $router->post('/')->to('plot#create')->('plot_create');
-  $router->put('/:id')->to('plot#update')->('plot_update');
-  $router->delete('/:id')->to('plot#delete')->('plot_delete');
+  $plot_router->get('/')->to('plot#find_all')->name('plot_find_all');
+  $plot_router->get('/:id')->to('plot#find')->name('plot_find');
+  $plot_router->post('/')->to('plot#create')->('plot_create');
+  $plot_router->put('/:id')->to('plot#update')->('plot_update');
+  $plot_router->delete('/:id')->to('plot#delete')->('plot_delete');
 
   # Geo routing
   my $geo_router = $router->under('/geo');
