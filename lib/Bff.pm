@@ -35,6 +35,15 @@ sub startup ($self) {
   $land_router->put('/:id')->to('land#update')->name('land_update');
   $land_router->delete('/:id')->to('land#delete')->name('land_delete');
 
+  # Plot routing
+  my $plot_router = $router->under('/plots');
+  $router->get('/')->to('plot#find_all')->name('plot_find_all');
+  $router->get('/:id')->to('plot#find')->name('plot_find');
+  $router->post('/')->to('plot#create')->('plot_create');
+  $router->put('/:id')->to('plot#update')->('plot_update');
+  $router->delete('/:id')->to('plot#delete')->('plot_delete');
+
+  # Geo routing
   my $geo_router = $router->under('/geo');
   $geo_router->post('/autocomplete')->to('geo#autocomplete')->name('geo_autocomplete');
 
