@@ -4,10 +4,35 @@ use Mojo::Base 'Mojolicious', -signatures;
 use Mojo::Log;
 use Mojolicious::Validator::Validation;
 use experimental qw(say);
+use Data::Dumper;
+
+sub _is_service_exn {
+    return shift =~ /Can\'t connect:\s.*\.pm/;
+}
 
 sub startup ($self) {
     my $log    = Mojo::Log->new( level => 'trace' );
     my $router = $self->routes->under('/api');
+
+    $self->hook(
+        around_dispatch => sub {
+            my ( $next, $c ) = @_;
+            eval { $next->(); 1 } or do {
+                chomp(my $msg = $@->message);
+                if ( _is_service_exn( $@->message ) ) {
+                    # A service outtage detected will be caught here
+                    $c->log->error("Possible service outage -> $msg");
+                    $c->render( status => 503, json => { err => 503, msg => 'Service Unavailable' } );
+                }
+                else {
+                    # This should never happen unless something goes really wrong.
+                    $c->log->error('EXCEPTION OF UNKNOWN ORIGIN CAUGHT');
+                    $c->log->error($msg);
+                    $c->render( status => 500, text => 'Something went wrong' );
+                }
+            };
+        }
+    );
 
     # User routing
     my $user_router = $router->under('/users');
