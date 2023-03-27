@@ -37,7 +37,7 @@ sub delete_land ($id) {
 
 sub find_all ($self) {
     $self->render(
-        json   => find_all_land->land,
+        json   => find_all_land->json,
         status => 200
     );
 }
