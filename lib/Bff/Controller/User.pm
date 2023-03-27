@@ -66,7 +66,8 @@ sub find {
 sub login {
   my $self = shift;
   return $self->render(status => 400, json => undef) unless $self->req->method eq 'POST';
-  my $jwt = $self->req->json->{'loginToken'}; # TODO: decode JWT here for login
+  my $jwt = $self->req->json->{'loginToken'}; 
+  # TODO: decode JWT here for login
   # TODO: Maybe we want an auth service
   return $self->render(status => 503, json => $err_msg ) unless my $user_login_response = post_user($self->req->json);
   $self->render(json => $user_login_response->json,
