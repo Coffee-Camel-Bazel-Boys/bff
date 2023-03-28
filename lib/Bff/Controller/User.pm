@@ -9,8 +9,13 @@ use Mojo::Base 'Mojolicious::Controller', -signatures;
 use Mojo::UserAgent;
 use Mojo::JSON;
 use Mojo::Exception qw(check);
+use Mojo::JWT;
+use Data::Dumper;
+use Carp;
 
 our $CLIENT_URI = 'http://garden-land:42069/api/v1/users/';
+
+my $GOOGLE_PASSWORD = $ENV{'GOOGLE_PASSWORD'} || croak 'Missing google JWT key';
 
 my $client = Mojo::UserAgent->new;
 
@@ -53,7 +58,10 @@ sub login {
     my $self = shift;
 
     return $self->render( status => 400, json => undef ) unless $self->req->method eq 'POST';
-    my $jwt = $self->req->json->{'loginToken'};
+    my $jwt    = Mojo::JWT->new( secret => $GOOGLE_PASSWORD );
+    my $claims = $jwt->decode( $self->req->json->{'userToken'} );
+
+    say( Dumper $claims );
 
     # TODO: decode JWT here for login
     # TODO: Maybe we want an auth service

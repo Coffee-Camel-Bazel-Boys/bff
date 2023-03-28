@@ -18,9 +18,10 @@ sub startup ($self) {
         around_dispatch => sub {
             my ( $next, $c ) = @_;
             eval { $next->(); 1 } or do {
-                chomp(my $msg = $@->message);
+                chomp( my $msg = $@->message );
+
+                # A service outtage detected will be caught here
                 if ( _is_service_exn( $@->message ) ) {
-                    # A service outtage detected will be caught here
                     $c->log->error("Possible service outage -> $msg");
                     $c->render( status => 503, json => { err => 503, msg => 'Service Unavailable' } );
                 }
